@@ -1,0 +1,94 @@
+{%extends 'dexmart/basic.html' %}
+{% block css %}
+.qty{
+	width:6vw;
+}
+.img-responsive{
+	width:6vw;
+	height:8vw;
+}
+.cart-total{
+	width:25vw;
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+	<div id="check_cart">
+	<h4 class="my-4 h4-respon alert alert-danger font-weight-bold text-danger">Step 1 - Dexmart Cart Review - Review Your Items
+</h4>
+
+<table class="table text-center table-responsive table-bordered table-hover">
+<tr>
+	<thead>
+		<th>#</th>
+		<th>Image</th>
+		<th>Product</th>
+		<th>Quantity</th>
+		<th>Total Price</th>
+		<th>Action</th>
+	</thead>
+</tr>
+<tbody id='ditem'>	</tbody>
+</table>
+<button class="btn btn-warning" id="clearcart"><b>Clear Cart</b></button>
+<div class="list-group cart-total ml-auto">
+	<li class="list-group-item">Cart Total</li>
+	<li class="list-group-item">Total Items : #<span id="cart_total_item"></span><br>
+		Total : R.s <span id="cart_total_total"></span>
+	</li>
+	<a href="/home/checkout" class="btn btn-success mt-1"><b><i class="fa fa-credit-card"></i> Checkout</b></a>
+</div>
+</div>
+</div>
+
+{%endblock%}
+
+{%block js%}
+	if (localStorage.getItem('cart')==null || localStorage.getItem('cart')=="{}") {
+			$('#check_cart').empty()
+			$('#check_cart').append("<h4 class='text-danger my-5 alert alert-danger font-weight-bold'>Your cart is Empty</h4>")
+	}
+	else
+	{
+		var cart=JSON.parse(localStorage.getItem('cart'))
+		set_item()
+		$('#clearcart').click(function(){
+		localStorage.clear()
+		$('#check_cart').empty()
+		$('#check_cart').append("<h4 class='text-danger my-5 alert alert-danger font-weight-bold'>Your cart is Empty</h4>")
+	});
+		function set_item(){
+			$('#ditem').empty()
+			var count=1
+			var cart_items=0
+			var cart_total=0
+			for(var item in cart){
+				cart_items+=cart[item][0]
+				var q="<tr><td>"+count+"</td><td><a href='/home/productview/"+item+"'><img src='"+cart[item][3]+"' class='img-responsive'></a></td><td><span>"+cart[item][1]+"</span></td><td><input type='number' min='0' onchange='update_price(this.id)' id='"+item+"' class='qty' value='"+cart[item][0]+"'></td><td><p>R.s "+cart[item][2]*cart[item][0]+"</p></td><td><button class='text-white btn btn-danger btn-sm' id='"+item+"' onclick='remove_item(this.id)'><b>Remove <i class='fa fa-trash'></i></b></button></td></tr>"
+				$('#ditem').append(q)
+				count+=1
+				cart_total=cart_total+(cart[item][0]*cart[item][2])
+			}
+			$('#cart_total_item').html(cart_items)
+			$('#cart_total_total').html(cart_total)
+			}
+		function remove_item(id){
+			delete cart[id]
+			localStorage.setItem("cart",JSON.stringify(cart))
+			set_item()
+		}	
+		function update_price(id){
+			var val=parseInt($('#'+id).val())
+			cart[id][0]=val
+			if(cart[id][0]==0){
+			delete cart[id]
+		}
+			set_item()
+			localStorage.setItem("cart",JSON.stringify(cart))
+			navbar_cart()
+	}
+		}
+
+
+{%endblock%}

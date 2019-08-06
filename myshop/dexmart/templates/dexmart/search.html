@@ -1,0 +1,89 @@
+{%extends 'dexmart/basic.html' %}
+{%block css%}
+	.card-img-top{
+		width:100px;
+		height:170px;
+}
+
+{%endblock%}
+{% block body %}
+<div class="container">
+	{%if notfound%}
+		<h4 class="my-4 alert alert-danger font-weight-bold text-danger">Searching query not found !</h4>
+	{%else%}
+	{%if prc%}
+		<h4 class="my-4 h4-respon alert alert-success font-weight-bold text-success">Search results for {{keyword}} under Rs. {{price}}</h4>
+	{%else%}
+		<h4 class="my-4 alert alert-success font-weight-bold text-success">Search results for {{keyword}}</h4>
+	{%endif%}
+	{%endif%}
+<div class="row mb-0">
+	{%for prod in prods%}
+	<div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-12 mb-5">
+		<div class="card">
+		<div class="text-center">
+		<img src="/media/{{prod.image}}" class="card-img-top img-fluid mt-2" id="image{{prod.id}}">
+		</div>
+		<div class="card-body">
+		<p class="card-title" id="name{{prod.id}}">{{prod.name|slice:'0:60'}}....<span  class="font-weight-bold text-success">$<span id="price{{prod.id}}">{{prod.price}}</span></span></p>
+		<div class="row float-right">
+		<a href="/home/productview/{{prod.id}}" class="btn mb-2 btn-danger  mr-1"><b>Quick View</b></a>
+		<div class="plusminus" id="plusminus{{prod.id}}">
+		<button id="{{prod.id}}" class="cart btn btn-danger"><b>Add to Cart</b></button>
+		</div></div></div>
+		</div>
+	</div> 
+	{%if forloop.counter|divisibleby:3 and not forloop.last%}
+	</div><div class="row mb-0">
+		{%endif%}
+	{%endfor%}
+</div>
+</div>
+{%endblock%}
+{%block js%}
+
+updatecart()
+$('.plusminus').on("click","button.cart",function(){
+	var id=this.id
+	if(id in cart){
+			cart[id][0]+=1
+			console.log("not")
+		}
+	else{
+	cart[id]=[1,$('#name'+id).html(),$('#price'+id).html(),$('#image'+id).attr('src')]
+	console.log($('#name'+id).html(),$('#price'+id).html(),$('#image'+id).attr('src'))
+	}
+	console.log(cart)
+	updatecart()
+	navbar_cart()
+	});
+function updatecart(){
+  for(var id in cart){
+	q="<button class='btn btn-danger' onclick='plus("+id+")'>+</button>"+cart[id][0]+"<button class='btn btn-danger' onclick='minus("+id+")'>-</button>"
+	$('#plusminus'+id).html(q)
+	if(cart[id][0]==0){
+		$('#plusminus'+id).html("<button id="+id+" class='cart btn btn-danger'>Add to Cart</button>")
+			delete cart[id]
+		}
+			}
+		navbar_cart()
+		localStorage.setItem("cart",JSON.stringify(cart))	
+		}
+
+function plus(id){
+	console.log(id)
+		cart[id][0]+=1
+		console.log(cart)
+		console.log(cart)
+		updatecart()
+}
+
+function minus(id){
+	cart[id][0]-=1
+	cart[id][0]=Math.max(0,cart[id][0])
+	console.log(cart)
+	console.log(cart)
+	updatecart()
+}
+
+{%endblock%}

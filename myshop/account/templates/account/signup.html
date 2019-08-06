@@ -1,0 +1,33 @@
+{%extends "account/basic.html"%}
+
+{%block body%}
+<div class="container">
+	<h4 class="list-group-item main-heading mt-2">New user Signup</h4>
+	<form action="/account/signup/" method="post" class="mx-5 list-group-item my-5">{%csrf_token%}
+
+	<div class="form-group">	
+		<label for="name">Name</label>
+		<input type="name" name="name" class="form-control" required="true">
+	</div>
+	<div class="form-group">	
+		<label for="email">Email</label>
+		<input type="email" name="email" class="form-control" required="true">
+	</div>
+	<div class="form-group">	
+		<label for="tel">Phone no. </label>
+		<input type="tel" name="tel" class="form-control">
+	</div>
+	<div class="form-group">
+		<label for="passwd">Password</label>
+		<input type="password" name="passwd" class="form-control" required="true">
+	</div>
+	<div class="form-group">
+		<p>Enter Security Question - This will help to Reset your passsword</p>
+		<label for="security">Your pat name</label>
+		<input type="text" name="security" class="form-control" required="true">
+	</div>
+	<input type="submit" value="Signup" class="btn btn-success">
+	</form>
+</div>
+
+{%endblock%}

@@ -1,0 +1,15 @@
+{%extends "account/basic.html"%}
+
+{%block body%}
+<h1 class="text-center list-group-item main-heading">profile</h1>
+
+<div class="text-center">
+	{{profile.pic}}
+	<h2>{{profile.user.username}}</h2>
+		<h2>{{profile.user.email}}</h2>
+			<h2>{{profile.tel}}</h2>
+				<h2>{{profile.security}}</h2>
+	}
+</div>
+
+{%endblock%}

@@ -1,0 +1,33 @@
+{%extends 'dexmart/basic.html' %}
+
+{% block body %}
+<div class="container">
+	<h4 class="list-group-item main-heading mt-4 mb-3">Contact us</h4>
+	<form action="/home/contact/" onsubmit="ssubmit()" method="post" class=" my-5">{%csrf_token%}
+	<div class="form-group">
+		<label for='name'>Name</label>
+		<input type="name" name="name" class="form-control" required="true">
+	</div>
+<div class="form-group">
+		<label for='email'>Email</label>
+		<input type="email" name="email" class="form-control" required="true">
+	</div>
+<div class="form-group">
+		<label for='tel'>Phone no.</label>
+		<input type="tel" name="tel" class="form-control" required="true">
+	</div>
+<div class="form-group">
+		<label for='comment'>How may I help You</label>
+		<textarea class="form-control" name="comment" rows=5 required="true">Write query here......</textarea>
+	</div>
+	<button class="btn btn-danger float-right mt-3 px-4" type='submit'><b>Submit</b></button><br><br>
+	</form>
+</div>
+{%endblock%}
+
+{%block js%}
+function ssubmit(){
+	alert("Form successfully submit, We contact you as much possible.")
+}
+
+{%endblock%}

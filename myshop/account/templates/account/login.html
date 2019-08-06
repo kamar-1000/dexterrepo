@@ -1,0 +1,48 @@
+{%extends "account/basic.html"%}
+
+{%block body%}
+<div class="container">
+	<h4 class="list-group-item main-heading mt-2 mb-5">Login to your account</h4>
+	<div id="login_error"></div>
+	<form action="/account/login/" id="form" method="post" class="mx-5 list-group-item ">{%csrf_token%}
+	<div class="form-group">	
+		<label for="username">User name</label>
+		<input type="name" name="username" class="form-control" required="true">
+	</div>
+	<div class="form-group">
+		<label for="passwd">Password</label>
+		<input type="password" name="passwd" class="form-control" required="true">
+	</div>
+	<button class="btn btn-success font-weight-bold" id="submit">Login</button>
+	</form>
+</div>
+
+{%endblock%}
+
+{% block js%}
+
+$('#submit').click(function(){
+	var myform=$('#form');
+	$.ajax({
+	url:myform.attr('action'),
+	type:myform.attr('method'),
+	data:$('#form input').serialize(),
+	success:function(data){
+		console.log(data)
+		if(data.error==undefined){
+		$('#login_error').empty()
+		$('#login_error').append("<h4 class='mb-3 alert alert-success text-success font-weight-bold'>Login Successfull</h4>")
+			document.location="/home"
+		}
+		else{
+			$('#login_error').empty()
+			$('#login_error').append("<h4 class='mb-3 alert alert-danger text-danger font-weight-bold'>Invalid UserID or Email</h4>")
+	}
+
+	}
+
+	});
+return false;
+});
+
+{%endblock%}

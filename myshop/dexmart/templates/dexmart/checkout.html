@@ -1,0 +1,107 @@
+{%extends 'dexmart/basic.html' %}
+
+{% block css %}
+.qty{
+	width:4vw;
+}
+.img-responsive{
+	width:6vw;
+	height:8vw;
+}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div id="cart_check">
+<section>
+<h4 class="my-4 alert h4-respon alert-success font-weight-bold text-success">Step 1 - Dexmart Cart Express Review - Review Your Items</h4>
+<table class="table table-bordered">	
+<thead>
+	<th>#</th>
+	<th>Image</th>
+	<th>Product</th>
+	<th>Qty</th>
+	<th>Total Amount</th>
+</thead>
+<tbody id="ditem"></tbody>
+</table>
+<li class="list-group-item list-group-item-action w-50 ml-auto" >Total Amount to Be Paid R.s <span id="cart_total"></span></li>
+</section>
+
+<section>	
+<h4 class="my-4 h4-respon alert alert-danger font-weight-bold text-danger">Step 2 - Enter Detail to Proceed to Checkout</h4>
+<form action="/home/checkout/"  method="post">{%csrf_token%}
+	<input type="hidden" name="orderdata">
+<div class="row">
+	<div class="col-lg-6 col-sm-6 col-12">
+		<div class="form-group">
+	<label for="name">Name</label>
+	<input type="name" name="name" class="form-control" required="true">	
+	</div>
+	</div>
+
+	<div class="col-lg-6 col-sm-6 col-12">
+	<div class="form-group">
+	<label for="email">Email</label>
+	<input type="email" name="email" class="form-control" required="true">	
+	</div>
+</div>
+</div>
+<div class="row">
+	<div class="col-lg-4 col-sm-4 col-12">
+		<div class="form-group">
+	<label for="city">City</label>
+	<input type="city" name="city" class="form-control" required="true">	
+	</div>
+	</div>
+	<div class="col-lg-4 col-sm-4 col-12">
+		<div class="form-group">
+	<label for="state">State</label>
+	<input type="state" name="state" class="form-control" required="true">	
+	</div></div>
+
+	<div class="col-lg-4 col-sm-4 col-12">
+		<div class="form-group">
+	<label for="pincode">Pincode</label>
+	<input type="pincode" name="pincode" class="form-control" required="true">	
+	</div></div>
+</div>
+<div class="form-group">
+	<label for="address">Address</label>
+	<input type="address" name="address" class="form-control" required="true">	
+</div>
+<div class="form-group">
+	<label for="tel">Phone no.</label>
+	<input type="tel" name="tel" class="form-control" required="true">	
+</div>
+	<button type="submit" id="submit" class="btn btn-success float-right"><b><i class="fa fa-credit-card"></i> Proceed to Checkout</b></button><br>
+</form>
+</section>
+</div>
+</div>
+{%endblock%}
+
+{%block js%}
+	if (localStorage.getItem('cart')==null || localStorage.getItem('cart')=="{}") {
+		$('#cart_check').empty()
+		$('#cart_check').append("<h4 class='text-danger my-5 alert alert-danger font-weight-bold'>Your cart is Empty</h4>")
+	}
+	else
+	{
+		var cart=JSON.parse(localStorage.getItem('cart'))
+		var count=1
+		var cart_total=0
+		for(var item in cart){
+			var q="<tr><td>"+count+"</td><td><img src='"+cart[item][3]+"' class='img-responsive'></td><td><span>"+cart[item][1]+"</span></td><td>"+cart[item][0]+"</td><td>R.s "+cart[item][2]*cart[item][0]+"</td></tr>"
+				$('#ditem').append(q)
+				count+=1
+				cart_total=cart_total+(cart[item][0]*cart[item][2])	
+			}
+				$('#cart_total').html(cart_total)
+				$('input[name=orderdata]').val(JSON.stringify(cart))
+	}
+	$('#submit').click(function(){
+	alert("Your order has been placed check your email")
+	localStorage.clear()
+});
+{%endblock%}

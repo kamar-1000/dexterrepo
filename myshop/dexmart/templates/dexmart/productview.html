@@ -1,0 +1,112 @@
+{%extends 'dexmart/basic.html' %}
+{%block css%}
+.inner{
+	overflow:hidden;
+}
+.inner img{
+	transition:all 1.5s ease;
+}
+.inner:hover img{
+	transform:scale(1.1);
+}
+{%endblock%}
+{% block body %}
+<div class="container">
+<div class="row mt-5">
+	<div class="col-xl-6 col-lg-6 col-sm-6 col-md-6 col-12">
+		<div class="inner">
+		<img src="/media/{{prod.product.image}}" class="img-fluid" id="prodimage">
+	</div>
+	</div>	
+	<div class="col-xl-6 col-lg-6 col-sm-6 col-md-6 col-12">
+	 <h4 id="prodname">{{prod.product.name|title}}</h4>
+	 <p>Product code: {{prod.product.code}}</p>
+	 <p>Rating: <b>{{prod.product.rating}}/5</b></p>
+	 <p class="text-success font-weight-bold">$<span id="prodprice">{{prod.product.price}}</span></p>
+	 <p>Availablity: 
+		{%if prod.product.stock%}
+		 <span class="text-success"><b>Available</b></span>
+	 	{%else%}
+		 <span class="text-danger"><b>Currently out of stock</b></span>
+		{%endif%}
+	</p>
+	 <p>Brand: <b>{{prod.product.brand}}</b></p>
+	 	<div class="row my-1 ml-0 float-right">
+	 <a href="/home/cart" class="btn btn-danger mr-1" id="{{prod.id}}" onclick="buy(this.id)">Buy</a>
+	<div id="plusminus">
+	<button class="btn btn-danger mr-3" id="{{prod.id}}" onclick="addtocart(this.id)">Add to cart</button>
+		</div>
+		</div>
+	 <p>Delivery By: <b>{{prod.product.deliveryby}}</b></p>
+	 {%if prod.product.keyfeatures%}
+		{%for feature in features%}
+		<p>{{feature}}</p>
+		{%endfor%}
+	{%endif%}
+	</div>
+</div>
+{%if prod.product.description%}
+	<p>{{prod.product.desc}}</p>
+{%endif%}
+{%for prodimg in prodsimg%}
+<div class="row mt-5">
+	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+		<div class="inner">
+		<img src="/media/{{prodimg.image}}" class="img-fluid mt-5">
+	</div>
+	</div>
+	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+		<h5 class="mt-5">{{prodimg.imgtext}}</h5>
+	</div>
+</div>
+{%endfor%}
+
+</div>
+
+{%endblock%}
+
+{%block js%}
+
+updatecart({{prod.id}})
+	function addtocart(id){  
+		if(id in cart){
+			cart[id][0]+=1
+		}
+		else{
+		cart[id]=[1,$('#prodname').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
+	}
+	updatecart(id)
+	}
+	function updatecart(id){
+	q="<button class='btn btn-danger' onclick='plus("+id+")'>+</button>"+cart[id][0]+"<button class='btn btn-danger' onclick='minus("+id+")'>-</button>"
+	$('#plusminus').html(q)
+	if(cart[id][0]==0){
+		$('#plusminus').html("<button class='btn btn-danger' id='{{prod.id}}' onclick='addtocart(this.id)'>Add to cart</button>")
+			delete cart[id]
+			console.log(cart)
+		}
+	navbar_cart()
+	localStorage.setItem("cart",JSON.stringify(cart))
+}
+	function plus(id){
+	console.log(id)
+		cart[id][0]+=1
+		console.log(cart)
+		updatecart(id)
+}
+	function minus(id){
+	cart[id][0]-=1
+	cart[id][0]=Math.max(0,cart[id][0])
+	console.log(cart)
+	updatecart(id)
+}
+function buy(id){
+	if(id in cart){
+		console.log("")
+		}
+	else{
+		cart[id]=[1,$('#prodname').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
+		localStorage.setItem("cart",JSON.stringify(cart))
+	}	
+}
+{%endblock%}

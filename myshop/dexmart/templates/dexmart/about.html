@@ -1,0 +1,90 @@
+{%extends 'dexmart/basic.html' %}
+{%load static%}
+{% block title %}About DexMart{%endblock%}
+{% block css %}
+	.iimg{
+	height:15vw;
+	width:15vw;
+}
+{%endblock%}
+{% block body %}
+<div class="container">
+<h2 class="mt-4 mb-3 bg-dark text-white text-center py-3">About DexMart</h2>
+<p>
+	DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfullquality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfullquality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfullquality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+	quality product in low cost.DexMart company start in india in 2019.After Successfull.DexMart Ecommarce company which aim's to provide
+<h2 class=" bg-dark text-white text-center mt-3 mb-5 py-1">Our Team</h2>
+<div class="row text-center">
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+		<img src="{%static 'dexmart/team/ka.jpg' %}" id='team1' class="img-fluid rounded-circle iimg">
+		<div id='content1'>
+		<hr class="mx-auto bg-dark w-50">
+		<h4 >Project Manager</h4>
+	</div>
+	</div>
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+		<img src="{%static 'dexmart/team/ka.jpg' %}" id='team2' class="img-fluid rounded-circle iimg">
+		<div id='content2'>
+		<hr class="mx-auto bg-dark w-50">
+		<h4 >Project Designer</h4>
+	</div>
+	</div>
+	<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+		<img src="{%static 'dexmart/team/ka.jpg' %}" id='team3'  class="img-fluid rounded-circle iimg">
+		<div id='content3'>
+		<hr class="mx-auto bg-dark w-50">
+		<h4 >Project Testing</h4>
+	</div>
+	</div>
+</div>
+</div>
+{%endblock%}
+{%block js%}
+$('#content1').hide();
+$('#content2').hide();
+$('#content3').hide();
+
+$('#team1').hover(function(){
+	$('#content1').show("slow")
+},function(){
+	$('#content1').hide("slow");
+});
+$('#team2').hover(function(){
+	$('#content2').show("slow")
+},function(){
+	$('#content2').hide("slow");
+});
+$('#team3').hover(function(){
+	$('#content3').show("slow")
+},function(){
+	$('#content3').hide("slow");
+});
+{%endblock%}

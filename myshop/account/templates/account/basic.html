@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>{%block title%} {%endblock%}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style type="text/css">{%block css%}  {%endblock%}
+
+*{ margin:0; padding:0; }
+.footer a{
+	color: white;
+}
+.style-navbar{
+	background-color: white;
+}
+.style-navbar-link a{
+	font-size: 18px;
+	color: white;
+}
+.style-navbar-link a:hover{
+	color: white;
+	font-weight: bolder;
+	background-color: #4B4C4C;
+}
+.main-heading{
+	color: white;
+	background-color:#64B5F6; 
+}
+.sub-heading{
+	color: #FFFCEF;
+	background-color:#2196F3; 
+}
+body{
+	font-family: 'Montserrat', sans-serif;
+
+}
+.zind{
+	z-index: 9999;
+}
+.bg-color{
+	background-color:#FFFFF4;
+}
+.h4-respon{
+	font-size:2.5vw;
+}
+.navbar-brand h3:hover{
+	color:red;
+}
+</style>
+</head>
+<body>
+<nav class="navbar zind navbar-expand-md navbar-dark sticky-top bg-dark">
+	<a href="/home" class="navbar-brand text-white"><h3>DexMart</h3></a>
+	<button class="navbar-toggler" data-toggle='collapse' data-target='#mynav'><span class="navbar-toggler-icon"></span></button>
+	<div class="collapse navbar-collapse" id='mynav'>
+	<ul class="navbar-nav style-navbar-link">
+		<li class="nav-item"><a href="/home" class="nav-link"> Home</a></li>
+		<li class="nav-item"><a href="/home/product" class="nav-link"> Product</a></li>
+		<li class="nav-item"><a href="/home/tracker" class="nav-link"> Tracker</a></li>
+		<li class="nav-item"><a href="/home/contact" class="nav-link"> Contact Us</a></li>
+		<li class="nav-item"><a href="/home/about" class="nav-link"> About</a></li>
+	</ul>
+	<ul class="navbar-nav ml-auto ">
+		{%if user.is_authenticated%}
+		<li class="nav-item style-navbar-link my-auto"><a href="/account/profile" class="nav-link"> 
+		{{user.username}}</a></li>
+		<li class="nav-item style-navbar-link my-auto"><a href="/account/logout" class="nav-link"> Logout</a></li>
+		{%else%}
+		<li class="nav-item style-navbar-link my-auto"><a href="/account/login" class="nav-link"> Login</a></li>
+		<li class="nav-item style-navbar-link my-auto"><a href="/account/signup" class="nav-link"> Register</a></li>
+		{%endif%}
+		<li class="nav-item">
+		<form action="/home/search/" method="post">{%csrf_token%}
+			<a class="nav-link"><input type="search" name='keyword' class="form-control" required="true" placeholder="Search here...."></a></li>
+			<li class="nav-item">
+			<a class="nav-link font-weight-bold"><button type="submit" class="btn btn-outline-success px-3"><b>Search <i class="fa fa-search"></i></b></button></a>
+		</form>
+	</li>
+		<li class="nav-item">
+		<a href="/home/cart" class="nav-link"><button class="btn btn-warning"><b><i class="fa fa-shopping-cart"></i> Cart(<span id="cartitem">0</span>)</button></b></a>
+	</li>
+	</ul>
+</div>
+</nav>
+
+{%block body%}   {%endblock%}
+
+<footer class=" mt-5 mb-0 bg-dark">
+	<div class="mt-5 footer">
+	<div class="row text-white text-center mr-0 ">
+		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 ">
+			<div class="mx-3 my-4 " id="about1">
+			<p>Quick links</p>
+			<hr id="hr1" class='w-50 bg-white mx-auto'>
+			<a href="/home">Home</a><br>
+			<a href="/home/product">Product</a><br>
+			<a href="/home/contact">Contact Us</a><br>
+			<a href="/home/tracker">Tracker</a><br>
+			<a href="/home/about">About</a>
+		</div>
+	</div>
+		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12  ">
+			<div class="mx-3 my-4 " id="about2">
+			<p>Follow Us</p>
+			<hr id="hr2" class='w-50 bg-white mx-auto'>
+			<a href="#">Facbook</a><br>
+			<a href="#">Twitter</a><br>
+			<a href="#">Instagram</a>
+		</div>
+	</div>
+		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12  ">
+			<div class="mx-3 my-4 " id="about3">
+			<p>Over Brands</p>
+			<hr id="hr3" class='w-50 bg-white mx-auto'>
+			<a href="#">Titan</a><br>
+			<a href="#">Adidas</a><br>
+			<a href="#">Samsung</a><br>
+			<a href="#">Vivo</a><br>
+			<a href="#">Oppo</a><br>
+			<a href="#">One plus</a>
+		</div>
+	</div>
+		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12  ">
+		<div class="mx-3 my-4 " id="about4">
+		<p>Contact info</p>
+		<hr id="hr4" class='w-50 bg-white mx-auto'>
+		<p>Email: kamaralam.1000@gmail.com</p>
+		<p >Phone no. : 9045371255</p>
+		<p >Address : 128 Naulakha Sadar Bazar Agra Uttar Pradesh 282001</p>
+		</div>
+	</div>
+	</div>
+	<hr class="bg-white">
+	<h2 class="text-center text-white my-4">DexMart</h2>
+	<p class="text-center text-white mb-0 pb-3 ">Copyright &copy 2019-2020</p>
+</div>
+</footer>
+
+<script type="text/javascript">
+	$('#hr1').hide();
+	$('#hr2').hide();
+	$('#hr3').hide();
+	$('#hr4').hide();
+	$('#about1').hover(function(){
+		$('#hr1').show("show");
+	},function(){
+		$('#hr1').hide();
+	});
+
+	$('#about2').hover(function(){
+		$('#hr2').show("show");
+	},function(){
+		$('#hr2').hide();
+	});
+
+	$('#about3').hover(function(){
+		$('#hr3').show("show");
+	},function(){
+		$('#hr3').hide();
+	});
+
+	$('#about4').hover(function(){
+		$('#hr4').show("show");
+	},function(){
+		$('#hr4').hide();
+	});
+	
+if (localStorage.getItem('cart')==null) {
+	var cart={}
+}
+else{
+	var cart=JSON.parse(localStorage.getItem('cart'))
+	navbar_cart()
+}
+function navbar_cart(){
+
+			var count=0
+			for(var item in cart){
+				count+=cart[item][0]
+			}
+			$('#cartitem').html(count)
+}
+
+{%block js%}   {%endblock%}
+
+</script>
+</body>
+</html>

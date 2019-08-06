@@ -1,0 +1,140 @@
+{%extends 'dexmart/basic.html' %}
+{% block css %}
+
+.img-responsive{
+	width:6vw;
+	height:8vw;
+}
+{% endblock %}
+{% block body %}
+<div class="container">
+<section>
+	<h4 class="list-group-item main-heading my-5">Track Your Order</h4>
+	<p class="mb-3">To Track your order please enter your OrderID and Email</p>
+	<form id="myform" method="post">{%csrf_token%}
+	<div class="row">
+	<div class="col-lg-6 col-sm-6 col-12">	
+		<div class="form-group">
+		<label for="orderid">OrderID</label>
+		<input type="text" id='orderid' name="orderid" class="form-control" placeholder="Your orderID" required="true" autocomplete="off">
+		</div>
+	</div>
+	<div class="col-lg-6 col-sm-6 col-12">	
+		<div class="form-group">
+		<label for="email">Billing Email</label>
+		<input type="email" name="email" class="form-control" placeholder="Email you used during checkout." required="true" autocomplete="off">
+		</div>
+	</div>
+</div>
+	<div id="error"></div>
+<button class="btn btn-danger px-4 mt-2 mb-5" id="track"><b>Track</b></button>
+	</form>
+</section>
+<section>
+<div id='trackdata'>
+	<p>Order detail regarding OrderID <mark>#<span class="orderid"></span></mark></p>
+	<p>Order <mark>#<span class="orderid"></span></mark> was placed on <mark><span id="orderdate"></span></mark></p>
+	<p>Order details</p>
+<div class="table-responsive">
+<table class="table text-center table-bordered">
+<tr>
+	<thead>
+		<th>#</th>
+		<th>Image</th>
+		<th>Product</th>
+		<th>Quantity</th>
+		<th>Total Price</th>
+	</thead>
+</tr>
+<tbody id='ditem'>	</tbody>
+</table>
+</div>
+<h4 class="my-4">Billing address</h4>
+<hr class="w-25">
+<p id="name"></p>
+<p class="city"></p>
+<p><span class="city"></span> - <span id="pincode"></span></p>
+<p id="state"></p>
+<p id='address'></p>
+<p id="tel"></p>
+<p id="email"></p>
+
+<h4 class="my-4">Status of your order</h4>
+<hr class="w-25">
+<div id='orderupdate'>
+	
+</div>
+</div>
+</section>
+</div>
+{%endblock%}
+
+{%block js%}
+$(document).ready(function(){
+$('#trackdata').hide()
+$('#track').click(function(){
+	var form=$('#myform')
+	$.ajax({
+	url:"/home/tracker/",
+	type:form.attr('method'),
+	data:$('#myform input').serialize(),
+	success:function(response_data){
+	console.log(response_data)
+	if(response_data.error==undefined){
+		$('#error').hide()
+		$('#trackdata').show()
+			orderupdates=response_data["orderupdates"]
+			userdata=response_data["userdata"]
+			orderdata=response_data["orderdata"]
+			var count=1
+			var cart_total=0
+			$('#ditem').empty()
+			for(var item in orderdata){
+				var q="<tr><td>"+count+"</td><td><img src='"+orderdata[item][3]+"' class='img-responsive'></td><td><span>"+orderdata[item][1]+"</span></td><td>"+orderdata[item][0]+"</td><td>R.s "+orderdata[item][2]*orderdata[item][0]+"</td></tr>"
+					$('#ditem').append(q)
+					count+=1
+					cart_total=cart_total+(orderdata[item][0]*orderdata[item][2])	
+			   }
+			   $('.orderid').html($('#orderid').val())
+			   $('#orderdate').html(orderupdates['update1'][1])
+				$('#name').html(userdata['name'].toUpperCase())
+				$('#email').html(userdata['email'])
+				$('.city').html(userdata['city'].toUpperCase())
+				$('#state').html(userdata['state'].toUpperCase())
+				$('#pincode').html(userdata['pincode'])
+				$('#address').html(userdata['address'].toUpperCase())
+				$('#tel').html(userdata['tel'])
+				$('#orderupdate').empty()
+				for(var update in orderupdates){
+				var q="<li class='list-group-item text-success list-group-item-warning font-weight-bold mb-1'>"+orderupdates[update][0]+"<span class='badge badge-pill badge-success float-right'>"+orderupdates[update][1]+"</span></li>"
+				$('#orderupdate').append(q)
+				}
+			}
+		else{
+		$('#trackdata').hide()
+		$('#error').html("<h5 class='alert alert-danger text-danger font-weight-bold'>Invalid OrderID or email</h5>")	
+		$('#error').show("slow")			
+		}
+
+		}
+	});
+	return false;
+});
+});
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
