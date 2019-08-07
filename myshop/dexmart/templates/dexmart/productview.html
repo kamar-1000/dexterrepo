@@ -22,7 +22,9 @@
 	 <h4 id="prodname">{{prod.product.name|title}}</h4>
 	 <p>Product code: {{prod.product.code}}</p>
 	 <p>Rating: <b>{{prod.product.rating}}/5</b></p>
+	 <span id="nmeprice">
 	 <p class="text-success font-weight-bold">$<span id="prodprice">{{prod.product.price}}</span></p>
+	 </span>
 	 <p>Availablity: 
 		{%if prod.product.stock%}
 		 <span class="text-success"><b>Available</b></span>
@@ -73,7 +75,7 @@ updatecart({{prod.id}})
 			cart[id][0]+=1
 		}
 		else{
-		cart[id]=[1,$('#prodname').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
+		cart[id]=[1,$('#prodname').html().slice(0,50)+"....."+$('#nmeprice').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
 	}
 	updatecart(id)
 	}
@@ -105,7 +107,7 @@ function buy(id){
 		console.log("")
 		}
 	else{
-		cart[id]=[1,$('#prodname').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
+		cart[id]=[1,$('#prodname').html().slice(0,50)+"....."+$('#nmeprice').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
 		localStorage.setItem("cart",JSON.stringify(cart))
 	}	
 }
