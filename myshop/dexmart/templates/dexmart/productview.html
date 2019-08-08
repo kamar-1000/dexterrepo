@@ -19,37 +19,38 @@
 	</div>
 	</div>	
 	<div class="col-xl-6 col-lg-6 col-sm-6 col-md-6 col-12">
-	 <h4 id="prodname">{{prod.product.name|title}}</h4>
-	 <p>Product code: {{prod.product.code}}</p>
-	 <p>Rating: <b>{{prod.product.rating}}/5</b></p>
+	 <h4 id="prodname">{{prod.name|title}}</h4>
+	 <p>Product code: {{prod.code}}</p>
+	 <p>Rating: <b>{{prod.rating}}/5</b></p>
 	 <span id="nmeprice">
-	 <p class="text-success font-weight-bold">$<span id="prodprice">{{prod.product.price}}</span></p>
+	 <p class="text-success font-weight-bold">$<span id="prodprice">{{prod.price}}</span></p>
 	 </span>
 	 <p>Availablity: 
-		{%if prod.product.stock%}
+		{%if prod.stock%}
 		 <span class="text-success"><b>Available</b></span>
 	 	{%else%}
 		 <span class="text-danger"><b>Currently out of stock</b></span>
 		{%endif%}
 	</p>
-	 <p>Brand: <b>{{prod.product.brand}}</b></p>
+	 <p>Brand: <b>{{prod.brand}}</b></p>
 	 	<div class="row my-1 ml-0 float-right">
 	 <a href="/home/cart" class="btn btn-danger mr-1" id="{{prod.id}}" onclick="buy(this.id)">Buy</a>
 	<div id="plusminus">
 	<button class="btn btn-danger mr-3" id="{{prod.id}}" onclick="addtocart(this.id)">Add to cart</button>
 		</div>
 		</div>
-	 <p>Delivery By: <b>{{prod.product.deliveryby}}</b></p>
-	 {%if prod.product.keyfeatures%}
+	 <p>Delivery By: <b>{{prod.deliveryby}}</b></p>
+	 {%if prod.keyfeatures%}
 		{%for feature in features%}
 		<p>{{feature}}</p>
 		{%endfor%}
 	{%endif%}
 	</div>
 </div>
-{%if prod.product.description%}
-	<p>{{prod.product.desc}}</p>
+{%if prod.description%}
+	<p>{{prod.desc}}</p>
 {%endif%}
+{%if prod.prodimg%}
 {%for prodimg in prodsimg%}
 <div class="row mt-5">
 	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -62,7 +63,7 @@
 	</div>
 </div>
 {%endfor%}
-
+{%endif%}
 </div>
 
 {%endblock%}

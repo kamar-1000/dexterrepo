@@ -67,7 +67,7 @@ def checkout(request):
 		
 		try:
 			subject='Dexmart - Thank you for purchasing product'
-			msg='Your Order has been Successfully placed, You can Track your Order in Dexmart.com Tracker section, Your OrderID is {}'.format(order.id)
+			msg='Your Order has been Successfully placed, You can Track your Order in kamar1000.pythonanywhere.com Tracker section, Your OrderID is {}'.format(order.id)
 			email_from=settings.EMAIL_HOST_USER
 			recipient_list=[email]
 			send_mail(subject,msg,email_from,recipient_list)
@@ -93,27 +93,47 @@ def contact(request):
 	return render(request,'dexmart/contact.html')
 
 def productview(request,prodid):
-	prodimg=ProductImage.objects.filter(product__id=prodid)
-	prod=prodimg[0]
-	feature=prod.product.feature.split("\n")
+	prod=Product.objects.get(id=prodid)
+	prodimg=None
+	if prod.prodimg:	
+		prodimg=ProductImage.objects.filter(product__id=prodid)
+	feature=prod.feature.split("\n")
 	return render(request,'dexmart/productview.html',{"prod":prod,"prodsimg":prodimg,"features":feature})
 
-def search_for_keyword(key,data):
-	if key in data.name or key in data.category or key in data.subcate or key in data.desc:
-		return True
-	return False
+def search_for_keyword(key,data):	#key=[samsung,32gb,phone]
+	count=0		#data=samsung standard edition 32gb smartphone
+	for query in key:
+		if query in data.name or query in data.category or query in data.subcate or query in data.desc:
+			count+=1
+	return count
 def search_for_price(price,data):
 	if int(data.price) <= int(price):
 		return True
 	return False
 def search(request):
-	key=request.POST['keyword'].lower()
+	keys=request.POST['keyword'].lower()
+	key=keys.split(' ')
+	print(key)
 	price=request.POST.get('price',"")
-	prods=[]
 	products=Product.objects.all()
+	result={}
+	prods=[]
+	i=0.1
 	for prod in products:
-		if search_for_keyword(key,prod):
-			prods.append(prod)
+		count=search_for_keyword(key,prod)
+		if count:
+			if len(key)>1:
+				if count in result:
+					result[count-i]=prod
+					i+=0.1
+				else:
+					result[count]=prod
+			else:prods.append(prod)
+	if len(key)>1:
+		l=sorted(result.keys(),reverse=True)
+		for i in l:
+			prods.append(result[i])
+	print(result)
 	prc=False
 	if not price == "":
 		prc=True
@@ -125,7 +145,7 @@ def search(request):
 		prods=prods2
 	if prods==[]:
 		return render(request,'dexmart/search.html',{"notfound":True})		
-	return render(request,'dexmart/search.html',{"notfound":False,"prods":prods,"keyword":key,"prc":prc,"price":price})
+	return render(request,'dexmart/search.html',{"notfound":False,"prods":prods,"keyword":keys,"prc":prc,"price":price})
 
 def category(request,cat=""):
 	products=Product.objects.all()
@@ -135,3 +155,4 @@ def category(request,cat=""):
 			prods.append(prod)
 	return render(request,'dexmart/category.html',{"prods":prods})
 
+ 
