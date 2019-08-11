@@ -12,7 +12,7 @@
 		width:100px;
 		height:170px;
 	}
-		
+
 .indicator{
 	position:absolute;
 	top:100%;
@@ -66,11 +66,11 @@
 					<li class="list-group-item list-group-item-action pl-5"><a href='/home/category/{{cat}}' >{{cat|upper}}</a></li>
 					{%endfor%}
 				</div>
-			</div> 
+			</div>
 		</div>
 			<div class="col-lg-9 col-xl-9 col-md-9 col-sm-12 col-12">
 				<h4 class="mb-5 list-group-item main-heading">Top Rated Products</h4>
-				
+
 				<div class="row mb-0">
 					{%for prod in prods%}
 					<div class="col-lg-4 col-sm-12 col-md-4 col-12 mb-5">
@@ -79,14 +79,14 @@
 							<img src="/media/{{prod.image}}" class="card-img-top img-fluid " id="image{{prod.id}}">
 							</div>
 							<div class="card-body">
-								<p class="card-title" id="name{{prod.id}}">{{prod.name|slice:"0:50"}}.....<span  class="text-success font-weight-bold">$<span id="price{{prod.id}}">{{prod.price}}</span></span></p>
+								<p class="card-title" id="name{{prod.id}}">{{prod.name|slice:"0:60"}}.....<span  class="text-success font-weight-bold">$<span id="price{{prod.id}}">{{prod.price}}</span></span></p>
 								<div class="row float-right">
 								<a href="/home/productview/{{prod.id}}" class="btn btn-danger mb-2 mr-1"><b>Quick View</b></a>
 								<div class="plusminus" id="plusminus{{prod.id}}">
 								<button id="{{prod.id}}" class="cart btn btn-danger"><b>Add to Cart</b></button>
 							</div></div></div>
 						</div>
-				   </div> 
+				   </div>
 				   {%if forloop.counter|divisibleby:3 and not forloop.last%}
 				   		</div><div class="row  ">
 				   	{%endif%}
@@ -100,7 +100,7 @@
 
 {%endblock%}
 
-{%block js%}   
+{%block js%}
 	if (localStorage.getItem('cart')==null) {
 		var cart={}
 	}

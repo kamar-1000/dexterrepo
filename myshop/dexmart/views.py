@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse,JsonResponse
+from django.http import JsonResponse
 from dexmart.models import Product,Carousel,Order,OrderUpdate,Contact,ProductImage
-import json 
+import json
 from django.core.mail import send_mail
 from django.conf import settings
 # Create your views here.
@@ -21,7 +21,7 @@ def home(request):
 def about(request):
 	return render(request,'dexmart/about.html')
 
-def tracker(request): 
+def tracker(request):
 	if request.method == "POST":
 		try:
 			orderid=int(request.POST['orderid'])
@@ -64,7 +64,7 @@ def checkout(request):
 		order.save()
 		orderupdate=OrderUpdate(updateid=order.id,updatedesc="Your Order Has Been Placed Successfully")
 		orderupdate.save()
-		
+
 		try:
 			subject='Dexmart - Thank you for purchasing product'
 			msg='Your Order has been Successfully placed, You can Track your Order in kamar1000.pythonanywhere.com Tracker section, Your OrderID is {}'.format(order.id)
@@ -95,17 +95,23 @@ def contact(request):
 def productview(request,prodid):
 	prod=Product.objects.get(id=prodid)
 	prodimg=None
-	if prod.prodimg:	
+	if prod.prodimg:
 		prodimg=ProductImage.objects.filter(product__id=prodid)
 	feature=prod.feature.split("\n")
 	return render(request,'dexmart/productview.html',{"prod":prod,"prodsimg":prodimg,"features":feature})
 
-def search_for_keyword(key,data):	#key=[samsung,32gb,phone]
+def search_for_keyword1(key,data):	#key=[samsung,32gb,phone]
 	count=0		#data=samsung standard edition 32gb smartphone
 	for query in key:
-		if query in data.name or query in data.category or query in data.subcate or query in data.desc:
+		if query in data.name or query in data.category or query in data.subcate or query in data.brand:
 			count+=1
+	if count<2:
+	    count=0
 	return count
+def search_for_keyword2(key,data):	#key=[samsung,32gb,phone]
+	if key in data.name or key in data.category or key in data.subcate or key in data.brand:
+	    return True
+	return False
 def search_for_price(price,data):
 	if int(data.price) <= int(price):
 		return True
@@ -116,24 +122,26 @@ def search(request):
 	print(key)
 	price=request.POST.get('price',"")
 	products=Product.objects.all()
-	result={}
 	prods=[]
-	i=0.1
-	for prod in products:
-		count=search_for_keyword(key,prod)
-		if count:
-			if len(key)>1:
-				if count in result:
-					result[count-i]=prod
-					i+=0.1
-				else:
-					result[count]=prod
-			else:prods.append(prod)
 	if len(key)>1:
-		l=sorted(result.keys(),reverse=True)
-		for i in l:
-			prods.append(result[i])
-	print(result)
+	    i=0.1
+	    result={}
+	    for prod in products:
+	        count=search_for_keyword1(key,prod)
+	        if count:
+	            if count in result:
+	                result[count-i]=prod
+	                i+=0.1
+	            else:
+	               result[count]=prod
+	    l=sorted(result.keys(),reverse=True)
+	    for i in l:
+	        prods.append(result[i])
+	else:
+	    key=key[0]
+	    for prod in products:
+	        if search_for_keyword2(key,prod):
+	            prods.append(prod)
 	prc=False
 	if not price == "":
 		prc=True
@@ -144,7 +152,7 @@ def search(request):
 		del prods
 		prods=prods2
 	if prods==[]:
-		return render(request,'dexmart/search.html',{"notfound":True})		
+		return render(request,'dexmart/search.html',{"notfound":True})
 	return render(request,'dexmart/search.html',{"notfound":False,"prods":prods,"keyword":keys,"prc":prc,"price":price})
 
 def category(request,cat=""):
@@ -155,4 +163,3 @@ def category(request,cat=""):
 			prods.append(prod)
 	return render(request,'dexmart/category.html',{"prods":prods})
 
- 

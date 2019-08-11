@@ -24,7 +24,7 @@ SECRET_KEY = '%)%y1^*xng^f+w%8-*#-wm+b8it43n%+#2lhk1+&27boy$4(i)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kamar1000.pythonanywhere.com',]
 
 
 # Application definition
@@ -76,11 +76,10 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'myshop',
-        'HOST' : 'localhost',
-        'USER' : 'root',
-        'PASSWORD' :'',
-        'PORT':3306
+        'NAME' : 'kamar1000$myshop',
+        'HOST' : 'kamar1000.mysql.pythonanywhere-services.com',
+        'USER' : 'kamar1000',
+        'PASSWORD' :'Agra@123'
     }
 }
 

@@ -15,9 +15,9 @@
 <div class="row mt-5">
 	<div class="col-xl-6 col-lg-6 col-sm-6 col-md-6 col-12">
 		<div class="inner">
-		<img src="/media/{{prod.product.image}}" class="img-fluid" id="prodimage">
+		<img src="/media/{{prod.image}}" class="img-fluid" id="prodimage">
 	</div>
-	</div>	
+	</div>
 	<div class="col-xl-6 col-lg-6 col-sm-6 col-md-6 col-12">
 	 <h4 id="prodname">{{prod.name|title}}</h4>
 	 <p>Product code: {{prod.code}}</p>
@@ -25,14 +25,14 @@
 	 <span id="nmeprice">
 	 <p class="text-success font-weight-bold">$<span id="prodprice">{{prod.price}}</span></p>
 	 </span>
-	 <p>Availablity: 
+	 <p>Availablity:
 		{%if prod.stock%}
 		 <span class="text-success"><b>Available</b></span>
 	 	{%else%}
 		 <span class="text-danger"><b>Currently out of stock</b></span>
 		{%endif%}
 	</p>
-	 <p>Brand: <b>{{prod.brand}}</b></p>
+	 <p>Brand: <b>{{prod.brand|upper}}</b></p>
 	 	<div class="row my-1 ml-0 float-right">
 	 <a href="/home/cart" class="btn btn-danger mr-1" id="{{prod.id}}" onclick="buy(this.id)">Buy</a>
 	<div id="plusminus">
@@ -71,7 +71,7 @@
 {%block js%}
 
 updatecart({{prod.id}})
-	function addtocart(id){  
+	function addtocart(id){
 		if(id in cart){
 			cart[id][0]+=1
 		}
@@ -110,6 +110,6 @@ function buy(id){
 	else{
 		cart[id]=[1,$('#prodname').html().slice(0,50)+"....."+$('#nmeprice').html(),$('#prodprice').html(),$('#prodimage').attr('src')]
 		localStorage.setItem("cart",JSON.stringify(cart))
-	}	
+	}
 }
 {%endblock%}

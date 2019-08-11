@@ -17,14 +17,14 @@
 		<img src="/media/{{prod.image}}" class="card-img-top img-fluid mt-2" id="image{{prod.id}}">
 		</div>
 		<div class="card-body">
-		<p class="card-title" id="name{{prod.id}}">{{prod.name|slice:'0:60'}}....<span  class="font-weight-bold text-success">$<span id="price{{prod.id}}">{{prod.price}}</span></span></p>
+		<p class="card-title" id="name{{prod.id}}">{{prod.name|slice:'0:50'}}....<span  class="font-weight-bold text-success">$<span id="price{{prod.id}}">{{prod.price}}</span></span></p>
 		<div class="row float-right">
 		<a href="/home/productview/{{prod.id}}" class="btn mb-2 btn-danger  mr-1"><b>Quick View</b></a>
 		<div class="plusminus" id="plusminus{{prod.id}}">
 		<button id="{{prod.id}}" class="cart btn btn-danger"><b>Add to Cart</b></button>
 		</div></div></div>
 		</div>
-	</div> 
+	</div>
 	{%if forloop.counter|divisibleby:3 and not forloop.last%}
 	</div><div class="row mb-0">
 		{%endif%}
@@ -59,7 +59,7 @@ function updatecart(){
 		}
 			}
 		navbar_cart()
-		localStorage.setItem("cart",JSON.stringify(cart))	
+		localStorage.setItem("cart",JSON.stringify(cart))
 		}
 
 function plus(id){
